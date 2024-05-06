@@ -15,17 +15,17 @@ import (
 
 // Config 数据源配置
 type Config struct {
-	Host        string `toml:"host"`        // 主机
-	Port        *int   `toml:"port"`        // 端口
-	Username    string `toml:"username"`    // 用户名
-	Password    string `toml:"password"`    // 密码
-	Database    string `toml:"database"`    // 数据库
-	Params      string `toml:"params"`      // 连接属性
-	MaxIdleConn *int   `toml:"maxIdleConn"` // 最大空闲连接数
-	MaxOpenConn *int   `toml:"maxOpenConn"` // 最大连接数
-	MaxLifetime *int64 `toml:"maxLifetime"` // 最大超时时间(秒)
-	ShowSql     bool   `toml:"showSql"`     // 显示执行SQL
-	SlowTime    *int64 `toml:"slowTime"`    // 慢查询时间(毫秒)
+	Host        string `toml:"host" yaml:"host"`               // 主机
+	Port        *int   `toml:"port" yaml:"port"`               // 端口
+	Username    string `toml:"username" yaml:"username"`       // 用户名
+	Password    string `toml:"password" yaml:"password"`       // 密码
+	Database    string `toml:"database" yaml:"database"`       // 数据库
+	Params      string `toml:"params" yaml:"params"`           // 连接属性
+	MaxIdleConn *int   `toml:"maxIdleConn" yaml:"maxIdleConn"` // 最大空闲连接数
+	MaxOpenConn *int   `toml:"maxOpenConn" yaml:"maxOpenConn"` // 最大连接数
+	MaxLifetime *int64 `toml:"maxLifetime" yaml:"maxLifetime"` // 最大超时时间(秒)
+	ShowSql     bool   `toml:"showSql" yaml:"showSql"`         // 显示执行SQL
+	SlowTime    *int64 `toml:"slowTime" yaml:"slowTime"`       // 慢查询时间(毫秒)
 }
 
 type _LogWriter struct{}

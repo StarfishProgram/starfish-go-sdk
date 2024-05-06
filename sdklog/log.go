@@ -9,7 +9,7 @@ import (
 
 // Config 日志配置
 type Config struct {
-	Level string `toml:"level"` // 级别 : debug, info, warn, error
+	Level string `toml:"level" yaml:"level"` // 级别 : debug, info, warn, error
 }
 
 type _Log struct{ ins *zap.Logger }

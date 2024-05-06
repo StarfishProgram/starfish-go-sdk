@@ -11,10 +11,10 @@ import (
 
 // Config JWT配置
 type Config struct {
-	Issuer      string `toml:"issuer"`      // 发行人
-	SecretKey   string `toml:"secretKey"`   // 签名私钥
-	ExpiresTime *int64 `toml:"expiresTime"` // 失效时间(秒)
-	ReissueTime *int64 `toml:"reissueTime"` // 重新颁发时间(秒) : 令牌剩余时间小于该值则重新颁发新令牌
+	Issuer      string `toml:"issuer" yaml:"issuer"`           // 发行人
+	SecretKey   string `toml:"secretKey" yaml:"secretKey"`     // 签名私钥
+	ExpiresTime *int64 `toml:"expiresTime" yaml:"expiresTime"` // 失效时间(秒)
+	ReissueTime *int64 `toml:"reissueTime" yaml:"reissueTime"` // 重新颁发时间(秒) : 令牌剩余时间小于该值则重新颁发新令牌
 }
 
 type UserClaims struct {

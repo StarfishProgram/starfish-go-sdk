@@ -13,24 +13,26 @@ import (
 
 // Config WEB配置
 type Config struct {
-	Listen string `toml:"listen"` // 监听地址
+	Listen string `toml:"listen" yaml:"listen"` // 监听地址
 }
 
 func ResponseData(ctx *gin.Context, data any) {
 	ctx.JSON(http.StatusOK, sdk.AnyMap{
-		"code": sdkcodes.OK.Code(),
-		"msg":  sdkcodes.OK.Msg(),
-		"i18n": sdkcodes.OK.I18n(),
-		"data": data,
+		"code":     sdkcodes.OK.Code(),
+		"msg":      sdkcodes.OK.Msg(),
+		"i18n":     sdkcodes.OK.I18n(),
+		"i18nMeta": sdkcodes.OK.I18nMeta(),
+		"data":     data,
 	})
 }
 
 func ResponseError(ctx *gin.Context, code sdkcodes.Code) {
 	ctx.JSON(http.StatusOK, sdk.AnyMap{
-		"code": code.Code(),
-		"msg":  code.Msg(),
-		"i18n": code.I18n(),
-		"data": nil,
+		"code":     code.Code(),
+		"msg":      code.Msg(),
+		"i18n":     code.I18n(),
+		"i18nMeta": sdkcodes.OK.I18nMeta(),
+		"data":     nil,
 	})
 }
 

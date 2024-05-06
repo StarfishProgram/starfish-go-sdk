@@ -9,10 +9,10 @@ import (
 
 // Config Redis配置
 type Config struct {
-	Host     string  `toml:"host"`     // 主机
-	Port     *int    `toml:"port"`     // 端口
-	Password string  `toml:"password"` // 密码
-	Prefix   *string `toml:"prefix"`   // 前缀
+	Host     string  `toml:"host" yaml:"host"`         // 主机
+	Port     *int    `toml:"port" yaml:"port"`         // 端口
+	Password string  `toml:"password" yaml:"password"` // 密码
+	Prefix   *string `toml:"prefix" yaml:"prefix"`     // 前缀
 }
 
 type Redis struct {

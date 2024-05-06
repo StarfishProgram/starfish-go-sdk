@@ -24,20 +24,22 @@ func Catch(ctx *gin.Context) {
 				msg = code.Msg()
 			}
 			ctx.JSON(http.StatusOK, sdk.AnyMap{
-				"code": code.Code(),
-				"msg":  msg,
-				"i18n": code.I18n(),
-				"data": nil,
+				"code":     code.Code(),
+				"msg":      msg,
+				"i18n":     code.I18n(),
+				"i18nMeta": sdkcodes.OK.I18nMeta(),
+				"data":     nil,
 			})
 			ctx.Abort()
 			return
 		}
 		sdklog.AddCallerSkip(2).Error(err)
 		ctx.JSON(http.StatusOK, sdk.AnyMap{
-			"code": sdkcodes.Internal.Code(),
-			"msg":  sdkcodes.Internal.Msg(),
-			"i18n": sdkcodes.Internal.I18n(),
-			"data": nil,
+			"code":     sdkcodes.Internal.Code(),
+			"msg":      sdkcodes.Internal.Msg(),
+			"i18n":     sdkcodes.Internal.I18n(),
+			"i18nMeta": sdkcodes.OK.I18nMeta(),
+			"data":     nil,
 		})
 		ctx.Abort()
 	}()
