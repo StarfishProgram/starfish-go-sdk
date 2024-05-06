@@ -44,9 +44,10 @@ func (s *Server) Call(ctx context.Context, param *anypb.Any) (result *Result, er
 	call, ok := s.calls[param.TypeUrl]
 	if !ok {
 		result.Code = &Code{
-			Code: sdkcodes.RequestNotFound.Code(),
-			Msg:  sdkcodes.RequestNotFound.Msg(),
-			I18N: sdkcodes.RequestNotFound.I18n(),
+			Code:     sdkcodes.RequestNotFound.Code(),
+			Msg:      sdkcodes.RequestNotFound.Msg(),
+			I18N:     sdkcodes.RequestNotFound.I18n(),
+			I18NMeta: sdkcodes.RequestNotFound.I18nMeta(),
 		}
 		return
 	}
@@ -55,18 +56,20 @@ func (s *Server) Call(ctx context.Context, param *anypb.Any) (result *Result, er
 			result.Data = nil
 			if code, ok := err.(sdkcodes.Code); ok {
 				result.Code = &Code{
-					Code: code.Code(),
-					Msg:  code.Msg(),
-					I18N: code.I18n(),
+					Code:     code.Code(),
+					Msg:      code.Msg(),
+					I18N:     code.I18n(),
+					I18NMeta: code.I18nMeta(),
 				}
 				sdklog.AddCallerSkip(3).Warn(code)
 				return
 			}
 			sdklog.AddCallerSkip(2).Error(err)
 			result.Code = &Code{
-				Code: sdkcodes.Internal.Code(),
-				Msg:  sdkcodes.Internal.Msg(),
-				I18N: sdkcodes.Internal.I18n(),
+				Code:     sdkcodes.Internal.Code(),
+				Msg:      sdkcodes.Internal.Msg(),
+				I18N:     sdkcodes.Internal.I18n(),
+				I18NMeta: sdkcodes.Internal.I18nMeta(),
 			}
 		}
 	}()

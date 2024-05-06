@@ -55,9 +55,10 @@ func Call[P, R protoreflect.ProtoMessage](client *_Client, param P) CallResult[R
 	if err != nil {
 		return CallResult[R]{
 			Code: &Code{
-				Code: sdkcodes.Internal.Code(),
-				Msg:  err.Error(),
-				I18N: sdkcodes.Internal.I18n(),
+				Code:     sdkcodes.Internal.Code(),
+				Msg:      err.Error(),
+				I18N:     sdkcodes.Internal.I18n(),
+				I18NMeta: sdkcodes.Internal.I18nMeta(),
 			},
 			Data: r,
 		}
@@ -67,9 +68,10 @@ func Call[P, R protoreflect.ProtoMessage](client *_Client, param P) CallResult[R
 		sdklog.AddCallerSkip(1).Error(err)
 		return CallResult[R]{
 			Code: &Code{
-				Code: sdkcodes.Internal.Code(),
-				Msg:  err.Error(),
-				I18N: sdkcodes.Internal.I18n(),
+				Code:     sdkcodes.Internal.Code(),
+				Msg:      err.Error(),
+				I18N:     sdkcodes.Internal.I18n(),
+				I18NMeta: sdkcodes.Internal.I18nMeta(),
 			},
 			Data: r,
 		}
@@ -77,9 +79,10 @@ func Call[P, R protoreflect.ProtoMessage](client *_Client, param P) CallResult[R
 	if result.Code != nil {
 		return CallResult[R]{
 			Code: &Code{
-				Code: result.Code.Code,
-				Msg:  result.Code.Msg,
-				I18N: result.Code.I18N,
+				Code:     result.Code.Code,
+				Msg:      result.Code.Msg,
+				I18N:     result.Code.I18N,
+				I18NMeta: result.Code.I18NMeta,
 			},
 			Data: r,
 		}
@@ -88,9 +91,10 @@ func Call[P, R protoreflect.ProtoMessage](client *_Client, param P) CallResult[R
 	if err := result.Data.UnmarshalTo(realData); err != nil {
 		return CallResult[R]{
 			Code: &Code{
-				Code: sdkcodes.Internal.Code(),
-				Msg:  err.Error(),
-				I18N: sdkcodes.Internal.I18n(),
+				Code:     sdkcodes.Internal.Code(),
+				Msg:      err.Error(),
+				I18N:     sdkcodes.Internal.I18n(),
+				I18NMeta: sdkcodes.Internal.I18nMeta(),
 			},
 			Data: r,
 		}
