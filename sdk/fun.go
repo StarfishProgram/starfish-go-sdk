@@ -128,7 +128,7 @@ func Assert(expr bool, code ...sdkcodes.Code) {
 		if code != nil {
 			panic(code[0])
 		} else {
-			panic(sdkcodes.Internal.WithMsg("expr is false"))
+			panic(sdkcodes.Internal.WithMsgf("expr is false"))
 		}
 	}
 }
@@ -139,7 +139,7 @@ func AssertNil[V any](v *V, code ...sdkcodes.Code) {
 		if code != nil {
 			panic(code[0])
 		} else {
-			panic(sdkcodes.Internal.WithMsg("value is nil"))
+			panic(sdkcodes.Internal.WithMsgf("value is nil"))
 		}
 	}
 }
@@ -153,7 +153,7 @@ func AssertError(err error, code ...sdkcodes.Code) {
 		if code != nil {
 			panic(code[0])
 		} else {
-			panic(sdkcodes.Internal.WithMsg("%s", err.Error()))
+			panic(sdkcodes.Internal.WithMsgf("%s", err.Error()))
 		}
 	}
 }

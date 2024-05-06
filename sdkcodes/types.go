@@ -8,8 +8,13 @@ type Code interface {
 	Msg() string
 	// I18n 国际化key
 	I18n() string
-	/// WithMsg 替换消息
-	WithMsg(format string, args ...any) Code
-
+	// I18nMeta 国际化扩展值
+	I18nMeta() map[string]string
+	/// WithMsgf 替换消息
+	WithMsgf(format string, args ...any) Code
+	/// WithMsgg 替换消息
+	WithMsg(msg string) Code
+	/// WithI18nMeta 替换国际化扩展值
+	WithI18nMeta(i18nNeta map[string]string) Code
 	error
 }

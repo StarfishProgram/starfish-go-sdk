@@ -42,7 +42,7 @@ func (j *_Jwt) NewToken(userId sdktypes.ID, roleId sdktypes.ID, pubkey string) (
 	token := jwt.NewWithClaims(jwt.SigningMethodHS512, jwtData)
 	tokenStr, err := token.SignedString([]byte(j.config.SecretKey))
 	if err != nil {
-		return "", sdkcodes.Internal.WithMsg(err.Error())
+		return "", sdkcodes.Internal.WithMsgf(err.Error())
 	}
 	return tokenStr, nil
 }
@@ -52,7 +52,7 @@ func (j *_Jwt) FlushToken(userClaims *UserClaims) (string, error) {
 	token := jwt.NewWithClaims(jwt.SigningMethodHS512, userClaims)
 	tokenStr, err := token.SignedString([]byte(j.config.SecretKey))
 	if err != nil {
-		return "", sdkcodes.Internal.WithMsg(err.Error())
+		return "", sdkcodes.Internal.WithMsgf(err.Error())
 	}
 	return tokenStr, nil
 }
@@ -63,7 +63,7 @@ func (j *_Jwt) ParseToken(tokenStr string) (*UserClaims, error) {
 		return []byte(j.config.SecretKey), nil
 	})
 	if err != nil {
-		return nil, sdkcodes.AccessLimited.WithMsg(err.Error())
+		return nil, sdkcodes.AccessLimited.WithMsgf(err.Error())
 	}
 	if token.Valid {
 		return jwtData, nil

@@ -12,6 +12,8 @@ message Code {
 	string msg = 2;
     // 国际化key
     string i18n = 3;
+    // 国际化扩展值
+    map<string, string> i18n_meta = 4;
 }
 
 // 返回结果
