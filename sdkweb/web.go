@@ -17,22 +17,22 @@ type Config struct {
 }
 
 func ResponseData(ctx *gin.Context, data any) {
-	ctx.JSON(http.StatusOK, sdk.AnyMap{
-		"code":     sdkcodes.OK.Code(),
-		"msg":      sdkcodes.OK.Msg(),
-		"i18n":     sdkcodes.OK.I18n(),
-		"i18nMeta": sdkcodes.OK.I18nMeta(),
-		"data":     data,
+	ctx.JSON(http.StatusOK, map[string]any{
+		"code": sdkcodes.OK.Code(),
+		"msg":  sdkcodes.OK.Msg(),
+		"i18n": sdkcodes.OK.I18n(),
+		"meta": sdkcodes.OK.Meta(),
+		"data": data,
 	})
 }
 
 func ResponseError(ctx *gin.Context, code sdkcodes.Code) {
-	ctx.JSON(http.StatusOK, sdk.AnyMap{
-		"code":     code.Code(),
-		"msg":      code.Msg(),
-		"i18n":     code.I18n(),
-		"i18nMeta": sdkcodes.OK.I18nMeta(),
-		"data":     nil,
+	ctx.JSON(http.StatusOK, map[string]any{
+		"code": code.Code(),
+		"msg":  code.Msg(),
+		"i18n": code.I18n(),
+		"meta": code.Meta(),
+		"data": nil,
 	})
 }
 

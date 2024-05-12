@@ -23,7 +23,17 @@ type _Client struct {
 }
 
 func InitClient(url string, key ...string) {
-	conn, err := grpc.Dial(url, grpc.WithTransportCredentials(insecure.NewCredentials()))
+	InitClientWithOptions(url, []grpc.DialOption{}, key...)
+}
+
+func InitClientWithOptions(url string, opts []grpc.DialOption, key ...string) {
+	dialOpts := make([]grpc.DialOption, 0, len(opts)+1)
+	dialOpts = append(dialOpts, grpc.WithTransportCredentials(insecure.NewCredentials()))
+	dialOpts = append(dialOpts, opts...)
+	conn, err := grpc.Dial(
+		url,
+		dialOpts...,
+	)
 	if err != nil {
 		sdklog.AddCallerSkip(1).Panic(err)
 	}
@@ -49,16 +59,29 @@ type CallResult[D protoreflect.ProtoMessage] struct {
 	Data D
 }
 
+// AssertCode 错误断言
+func (cr *CallResult[D]) AssertCode() {
+	if cr.Code != nil {
+		code := sdkcodes.New(
+			cr.Code.Code,
+			cr.Code.Msg,
+			cr.Code.I18N,
+			cr.Code.Meta,
+		)
+		panic(code)
+	}
+}
+
 func Call[P, R protoreflect.ProtoMessage](client *_Client, param P) CallResult[R] {
 	var r R
 	anyParam, err := anypb.New(param)
 	if err != nil {
 		return CallResult[R]{
 			Code: &Code{
-				Code:     sdkcodes.Internal.Code(),
-				Msg:      err.Error(),
-				I18N:     sdkcodes.Internal.I18n(),
-				I18NMeta: sdkcodes.Internal.I18nMeta(),
+				Code: sdkcodes.Internal.Code(),
+				Msg:  err.Error(),
+				I18N: sdkcodes.Internal.I18n(),
+				Meta: sdkcodes.Internal.Meta(),
 			},
 			Data: r,
 		}
@@ -68,10 +91,10 @@ func Call[P, R protoreflect.ProtoMessage](client *_Client, param P) CallResult[R
 		sdklog.AddCallerSkip(1).Error(err)
 		return CallResult[R]{
 			Code: &Code{
-				Code:     sdkcodes.Internal.Code(),
-				Msg:      err.Error(),
-				I18N:     sdkcodes.Internal.I18n(),
-				I18NMeta: sdkcodes.Internal.I18nMeta(),
+				Code: sdkcodes.Internal.Code(),
+				Msg:  err.Error(),
+				I18N: sdkcodes.Internal.I18n(),
+				Meta: sdkcodes.Internal.Meta(),
 			},
 			Data: r,
 		}
@@ -79,10 +102,10 @@ func Call[P, R protoreflect.ProtoMessage](client *_Client, param P) CallResult[R
 	if result.Code != nil {
 		return CallResult[R]{
 			Code: &Code{
-				Code:     result.Code.Code,
-				Msg:      result.Code.Msg,
-				I18N:     result.Code.I18N,
-				I18NMeta: result.Code.I18NMeta,
+				Code: result.Code.Code,
+				Msg:  result.Code.Msg,
+				I18N: result.Code.I18N,
+				Meta: result.Code.Meta,
 			},
 			Data: r,
 		}
@@ -91,10 +114,10 @@ func Call[P, R protoreflect.ProtoMessage](client *_Client, param P) CallResult[R
 	if err := result.Data.UnmarshalTo(realData); err != nil {
 		return CallResult[R]{
 			Code: &Code{
-				Code:     sdkcodes.Internal.Code(),
-				Msg:      err.Error(),
-				I18N:     sdkcodes.Internal.I18n(),
-				I18NMeta: sdkcodes.Internal.I18nMeta(),
+				Code: sdkcodes.Internal.Code(),
+				Msg:  err.Error(),
+				I18N: sdkcodes.Internal.I18n(),
+				Meta: sdkcodes.Internal.Meta(),
 			},
 			Data: r,
 		}

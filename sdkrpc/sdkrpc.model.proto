@@ -13,7 +13,7 @@ message Code {
     // 国际化key
     string i18n = 3;
     // 国际化扩展值
-    map<string, string> i18n_meta = 4;
+    map<string, string> meta = 4;
 }
 
 // 返回结果

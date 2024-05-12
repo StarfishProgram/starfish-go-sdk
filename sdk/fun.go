@@ -122,6 +122,18 @@ func Go(call func()) {
 	}()
 }
 
+// Catch 异常捕获
+func Catch(call func()) any {
+	var result any
+	defer func() {
+		if err := recover(); err != nil {
+			result = err
+		}
+	}()
+	call()
+	return result
+}
+
 // Assert
 func Assert(expr bool, code ...sdkcodes.Code) {
 	if !expr {
@@ -158,7 +170,19 @@ func AssertError(err error, code ...sdkcodes.Code) {
 	}
 }
 
+// AssertCode
+func AssertCode(code sdkcodes.Code) {
+	if code != nil {
+		panic(code)
+	}
+}
+
 // Reverse 翻转数组
 func Reverse[S ~[]E, E any](s S) {
 	slices.Reverse(s)
+}
+
+// Convert 数据转换
+func Convert[D any, R any](d D, call func(d D) R) R {
+	return call(d)
 }
